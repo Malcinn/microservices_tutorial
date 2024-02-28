@@ -1,13 +1,14 @@
 package com.company.gateway;
 
 import com.company.gateway.configuration.ApplicationConfiguration;
+import com.company.gateway.configuration.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import(ApplicationConfiguration.class)
+@Import({ApplicationConfiguration.class, SecurityConfig.class})
 @EnableDiscoveryClient
 public class GatewayApplication {
 
