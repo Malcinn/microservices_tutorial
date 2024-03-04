@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8080
 eureka:
   client:
     serviceUrl:
@@ -36,7 +36,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/microservices-tutorial-realm
+          issuer-uri: http://localhost:8000/realms/microservices-tutorial-realm
 logging:
   level:
     root: INFO
