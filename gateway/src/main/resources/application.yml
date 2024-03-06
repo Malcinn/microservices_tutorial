@@ -1,5 +1,9 @@
+#server:
+#  port: 8080
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    bundle: "web-server-pem"
 eureka:
   client:
     serviceUrl:
@@ -7,6 +11,14 @@ eureka:
 spring:
   application:
     name: api-gateway
+  ssl:
+    bundle:
+      pem:
+        web-server-pem:
+          keystore:
+            certificate: "classpath:api-gateway-web-server.crt"
+            private-key: "classpath:api-gateway-web-server-private.key"
+            private-key-password: "api-gateway-web-server-private.key"
   cloud:
     gateway:
       routes:

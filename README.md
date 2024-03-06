@@ -22,6 +22,17 @@ https://www.youtube.com/playlist?list=PLSVW22jAG8pBnhAdq9S8BpLnZ0_jVBj0c
          8. Service accounts roles
       9. Go to credentials and copy client secret for test purposes we are using "'Client Credentials" OAuth authentication flow.
       10. Right now you can use client ID and client secret in postman app
+### Local SSL Configuration
+On development environment we are using server certificate signed by Local RootCA(Authority)
+In the resources folder of "gateway" project there are following files:
+* api-gateway-web-server.crt - web server certificate
+* api-gateway-web-server.csr - web server certificate signing request 
+* api-gateway-web-server.pem - certificate chain contains server certificate and rootCA
+* api-gateway-web-server-private.key - web server private key
+* domain.ext - configuration file for signing server certificate with rootCA
+* rootCA.crt - root certificate Authority  
+* rootCA.key - private key of root Authority
+
 #### To start up existing docker container
 1. Check available containers: sudo docker ps -a
 2. Start up container: sudo docker start CONTAINER_ID 
