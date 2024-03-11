@@ -34,6 +34,7 @@ dependencies {
 	implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
+	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'

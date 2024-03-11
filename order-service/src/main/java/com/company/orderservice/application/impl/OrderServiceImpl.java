@@ -45,11 +45,12 @@ public class OrderServiceImpl implements OrderService {
                 .filter(InventoryResponse::isInStock)
                 .map(InventoryResponse::getSkuCode)
                 .collectList()
-                .onErrorResume(throwable -> {
-                    LOGGER.error("Service unavailable, exception message:{}", throwable.getMessage());
-                    throwable.printStackTrace();
-                    return Mono.just(Collections.emptyList());
-                })
+//  In case of usage of circuit breaker we do not need to handle errors in that way
+//                .onErrorResume(throwable -> {
+//                    LOGGER.error("Service unavailable, exception message:{}", throwable.getMessage());
+//                    throwable.printStackTrace();
+//                    return Mono.just(Collections.emptyList());
+//                })
                 .map(inStockInventories -> {
                     Order order = this.map(orderRequest, inStockInventories);
                     orderRepository.save(order);

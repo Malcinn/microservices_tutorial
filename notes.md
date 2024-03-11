@@ -90,3 +90,16 @@ oauth2.0 documentation:
 * https://www.oauth.com/playground/
 * OAuth2.0 spring boot and resource server configuration:
 https://docs.spring.io/spring-security/reference/reactive/oauth2/resource-server/index.html
+
+# Microservices
+
+## Circuit breaker - Resilence4J
+
+We are using it e.g in case of errors in communication between services.</br>
+Circuit breaker have three default states: Closed, Open, Half Open</br>
+Closed means that there is no issue in between and standard flow of communication is performed.</br>
+Whenever error occurred (e.g our dependent service is down)  circuit breaker gets into Open state.</br>
+In the open state we will not call the service which is down until it is up again or some other cases are fulfilled(dependet from configuration).</br>
+Depend on configuration  
+You can read more here: https://resilience4j.readme.io/docs/circuitbreaker</br>
+
