@@ -30,4 +30,10 @@ public class ApplicationTestConfiguration {
             }
         };
     }
+
+    @Bean
+    public TestConsumer testConsumer(){
+        return new TestConsumer();
+    }
+
 }

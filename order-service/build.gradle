@@ -32,21 +32,25 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
 	implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.16.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
+	implementation 'org.springframework.kafka:spring-kafka'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-	implementation platform('org.testcontainers:testcontainers-bom:1.19.4') //import bom
+	implementation platform('org.testcontainers:testcontainers-bom:1.19.7') //import bom
 	testImplementation "org.testcontainers:junit-jupiter"
 	testImplementation('org.testcontainers:mysql') //no version specified
+	testImplementation ('org.testcontainers:kafka')
 
 	testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
 	testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: '4.12.0'
+	//testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 dependencyManagement {

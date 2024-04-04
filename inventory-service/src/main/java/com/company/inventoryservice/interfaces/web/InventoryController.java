@@ -18,10 +18,10 @@ public class InventoryController {
 
     @GetMapping()
     public Flux<InventoryResponseDTO> areInStock(@RequestParam("skuCode") List<String> skuCodes) throws InterruptedException {
-        Long sleepDuration = 5000L;
-        if (Objects.nonNull(sleepDuration)){
-            Thread.sleep(sleepDuration);
-        }
+//        Long sleepDuration = 5000L;
+//        if (Objects.nonNull(sleepDuration)){
+//            Thread.sleep(sleepDuration);
+//        }
         return inventoryFacade.findAllBySkuCode(skuCodes);
     }
 }

@@ -34,8 +34,8 @@ public class OrderController {
     public Mono<ResponseEntity<String>> placeOrder(@Validated @RequestBody OrderRequestDTO orderRequest) {
         return orderFacade.placeOrder(orderRequest)
                 .map(orderNumber -> new ResponseEntity<>(MessageFormat.format("Order placed successfully, Order number: {0}", orderNumber), HttpStatus.CREATED));
-                // In case of usage of circuit breaker we do not need to handle errors in that way
-                //.onErrorReturn(new ResponseEntity<>("Order placement failed", HttpStatus.INTERNAL_SERVER_ERROR));
+        // In case of usage of circuit breaker we do not need to handle errors in that way
+        //.onErrorReturn(new ResponseEntity<>("Order placement failed", HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,8 +45,8 @@ public class OrderController {
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
-    public Mono<ResponseEntity<String>> inventoryFallback(OrderRequestDTO orderRequestDTO, Throwable throwable){
-        return Mono.just(new ResponseEntity<>("Ops.. Inventory service unavailable, can not proceed further, please order after some time.", HttpStatus.INTERNAL_SERVER_ERROR));
+    public Mono<ResponseEntity<String>> inventoryFallback(OrderRequestDTO orderRequestDTO, Throwable throwable) {
+        return Mono.just(new ResponseEntity<>("Ops.. Inventory service unavailable, can not proceed further, please order after some time. Error " + throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
 }

@@ -5,6 +5,7 @@ import com.company.orderservice.application.OrderService;
 import com.company.orderservice.configuration.ApplicationProperties;
 import com.company.orderservice.domain.Order;
 import com.company.orderservice.domain.OrderLineItem;
+import com.company.orderservice.event.OrderPlacedEvent;
 import com.company.orderservice.infrastructure.jpa.OrderRepository;
 import com.company.orderservice.interfaces.facade.OrderLineItemDTO;
 import com.company.orderservice.interfaces.facade.OrderRequestDTO;
@@ -13,12 +14,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,6 +38,8 @@ public class OrderServiceImpl implements OrderService {
     private ApplicationProperties applicationProperties;
 
     private final ReactorLoadBalancerExchangeFilterFunction loadBalancedFunction;
+
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     @Transactional
     @Override
@@ -54,6 +59,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(inStockInventories -> {
                     Order order = this.map(orderRequest, inStockInventories);
                     orderRepository.save(order);
+                    kafkaTemplate.send(applicationProperties.getTopicName(), new OrderPlacedEvent(order.getOrderNumber()));
                     return order.getOrderNumber();
                 });
     }
@@ -92,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(s -> "skuCode=" + s)
                 .collect(Collectors.joining("&"));
         return WebClient.builder()
+                .clientConnector(new ReactorClientHttpConnector(HttpClient.create().wiretap(true)))
                 .filter(loadBalancedFunction)
                 .baseUrl(applicationProperties.getInventoryServiceBaseURL())
                 .build()
